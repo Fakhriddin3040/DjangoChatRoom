@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "chat-room"
+version = "0.1.0"
+description = "Just async chat room project via WebSocket"
+package-mode = false
+authors = ["Fakhriddin <fahriddin3040@gmail.com>"]
+
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.0.8"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
