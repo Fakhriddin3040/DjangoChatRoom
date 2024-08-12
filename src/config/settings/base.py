@@ -8,6 +8,20 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
+LOGIN_REDIRECT_URL = "/"
+ACCOUNT_SIGNUP_REDIRECT_URL = (
+    "{% url 'account_signup' %}?next={% url 'profile-onboarding' %}"
+)
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_REQUIRED = True
+
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 DEBUG = True
@@ -41,9 +55,13 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "django",
     "rest_framework_simplejwt",
+    "allauth",
+    "allauth.account",
+    "django_htmx",
     # Local apps
     "src.apps.auth",
     "src.apps.api",
+    "src.apps.chat",
 ]
 
 MIDDLEWARE = [
@@ -54,12 +72,14 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
