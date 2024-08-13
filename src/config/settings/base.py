@@ -22,6 +22,9 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True
 
+ASGI_APPLICATION = "src.config.asgi.application"
+WSGI_APPLICATION = "src.config.wsgi.application"
+
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 DEBUG = True
@@ -44,6 +47,7 @@ AUTH_USER_MODEL = "authorization.User"
 
 
 INSTALLED_APPS = [
+    "daphne",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -58,6 +62,7 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "django_htmx",
+    "channels",
     # Local apps
     "src.apps.auth",
     "src.apps.api",
@@ -92,14 +97,16 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "src.config.wsgi.application"
-ASGI_APPLICATION = "src.config.asgi.application"
 ROOT_URLCONF = "src.config.urls"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("POSTGRES_DB"),
+        "USER": os.getenv("POSTGRES_USER"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+        "HOST": os.getenv("POSTGRES_HOST"),
+        "PORT": os.getenv("POSTGRES_PORT")
     }
 }
 
@@ -155,4 +162,14 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "API schema",
     "VERSION": "1.0.0",
     "SERVE_PUBLIC": True,
+}
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [(os.getenv('REDIS_HOST'), os.getenv('REDIS_PORT'))],
+        }
+    }
 }

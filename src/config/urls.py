@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls.static import static
 
-from src.apps.chat import urls as chat_urls 
+from src.apps.chat import urls as chat_urls
 from src.apps.auth.views.profile import profile_view
 from src.apps.api import urls as api_urls
 from src.apps.auth.urls import view_urlpatterns as auth_views

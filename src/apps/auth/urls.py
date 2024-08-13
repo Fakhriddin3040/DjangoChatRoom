@@ -27,4 +27,3 @@ view_urlpatterns = [
     path("delete/", profile_delete_view, name="profile-delete"),
     # path("", home_view, name="home"),
 ]
-

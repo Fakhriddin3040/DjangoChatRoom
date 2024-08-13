@@ -6,11 +6,7 @@ from src.utils.functions.models import try_to_get_object
 
 
 def chat_view(request) -> render:
-    chat = try_to_get_object(
-        Chat.objects,
-        Chat.DoesNotExist,
-        title="Niger.com"
-    )
+    chat = try_to_get_object(Chat.objects, Chat.DoesNotExist, title="public")
     messages = chat.messages.all()
     form = MessageCreateForm()
 
@@ -24,10 +20,7 @@ def chat_view(request) -> render:
             message.chat = chat
             message.save()
 
-            context = {
-                'message': message,
-                'user': request.user
-            }
+            context = {"message": message, "user": request.user}
             return render(request, "chat/partials/message.html", context)
 
     return render(request, "chat/chat.html", {"chat_messages": messages, "form": form})
