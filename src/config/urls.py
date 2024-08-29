@@ -15,7 +15,4 @@ urlpatterns = [
     path("profile/", include(auth_views), name="auth_views"),
     path("@<username>/", profile_view, name="profile"),
     path("", include(chat_urls), name="profile"),
-]
-
-if settings.DEBUG:
-    static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.MEDIA_ROOT, document_root=settings.MEDIA_ROOT)
